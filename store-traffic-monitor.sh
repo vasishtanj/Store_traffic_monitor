@@ -1,15 +1,14 @@
 #!/bin/bash
  
-version = "16.04.1-Ubuntu"
-str = $(uname -a)
-	if [ "${str/$version}" = "$str"] ; then 
-		echo "incorrect version. Please use 16.04.01-Ubuntu"
-	else
-		echo "Using correct version"	
-	fi
-		
-#uname -a
+version="16.04.1-Ubuntu"
+str=$(uname -a)
 
+if ["${str/$version}" = "$str"] ; then 
+	echo "incorrect version. Please use 16.04.01-Ubuntu"
+else
+	echo "Using correct version"	
+fi
+		
 	
 sudo apt update
 sudo apt install ffmpeg
@@ -29,11 +28,24 @@ source /opt/intel/openvino/bin/setupvars.sh -pyver 3.5
 
 cd $HOME/store-traffic-monitor-python
 
-echo "Enter specified target device : 'CPU','GPU-16','GPU-32','FPGA','MYRIAD','HHDL'"
-read target_device
+############################################################################
 
+while [ flag==0 ]
+do
+	echo "Enter specified target device : 'CPU','GPU-16','GPU-32','FPGA','MYRIAD','HHDL'"
+	read t_d
+	
+if [[ ! $t_d =~ ^(CPU|GPU-16|GPU-32|FPGA|MYRIAD|HHDL)$ ]]; then	
+	echo "bad input, try again"
+	flag=0
+else
+	flag=1
+	break
+fi
+done
+#############################################################################
 
-case $target_device in 
+case $t_d in 
 	CPU) 
 		echo "targeting CPU" 	
 		#cd $HOME/store-traffic-monitor-python 		
