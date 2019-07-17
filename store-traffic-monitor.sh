@@ -34,7 +34,10 @@ fi
 cd $HOME/store-traffic-monitor-python/resources 
 if [ ! -f "bottle-detection.mp4" ] && [ ! -f "people-detection.mp4" ] && [ ! -f "one-by-one-person-detection.mp4" ]
 then
+	cd $HOME/store-traffic-monitor-python/
 	python3 video_downloader.py
+else 
+	echo "files were already there"
 fi 
 
 
