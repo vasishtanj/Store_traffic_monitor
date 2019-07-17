@@ -1,17 +1,20 @@
 #!/bin/bash
  
-version="16.04.1-Ubuntu"
-str=$(uname -a)
-
-if ["${str/$version}" = "$str"] ; then 
-	echo "incorrect version. Please use 16.04.01-Ubuntu"
-else
-	echo "Using correct version"	
+if [ ! -d "/opt/intel/openvino_2019.1.094" ]
+then
+	echo "incorrect version. Please install OpenVINO_2019.1.094"	
 fi
 		
-	
+uname -a 	
+
+
 sudo apt update
-sudo apt install ffmpeg
+
+if [ ! -d "/usr/share/ffmpeg" ]
+then 
+	sudo apt install ffmpeg
+fi
+
 cd $HOME
 cd /opt/intel/openvino/deployment_tools/tools/model_downloader/
 sudo ./downloader.py --name mobilenet-ssd
@@ -21,7 +24,17 @@ cd /opt/intel/openvino/deployment_tools/model_optimizer/
 ./mo_caffe.py --input_model /opt/intel/openvino/deployment_tools/tools/model_downloader/object_detection/common/mobilenet-ssd/caffe/mobilenet-ssd.caffemodel  -o $HOME/store-traffic-monitor-python/resources/FP32 --data_type FP32 --scale 256 --mean_values [127,127,127]
 
 cd $HOME/store-traffic-monitor-python 
+
+
+
+
 python3 video_downloader.py
+
+
+
+
+
+
 
 
 source /opt/intel/openvino/bin/setupvars.sh -pyver 3.5
@@ -35,7 +48,7 @@ do
 	echo "Enter specified target device : 'CPU','GPU-16','GPU-32','FPGA','MYRIAD','HHDL'"
 	read t_d
 	
-if [[ ! $t_d =~ ^(CPU|GPU-16|GPU-32|FPGA|MYRIAD|HHDL)$ ]]; then	
+if [[ ! $t_d =~ ^(CPU|GPU-16|GPU-32|FPGA|MYRIAD|HHDL)$ ]]; then	 # =~ returns 0 if true, $match end of the line, ^match 
 	echo "bad input, try again"
 	flag=0
 else
@@ -70,6 +83,10 @@ case $t_d in
 		;;
 	*)	
 esac
+
+###############################################################################
+
+
 
 
 
