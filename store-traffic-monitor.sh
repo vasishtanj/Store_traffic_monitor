@@ -17,7 +17,11 @@ fi
 
 cd $HOME
 cd /opt/intel/openvino/deployment_tools/tools/model_downloader/
-sudo ./downloader.py --name mobilenet-ssd
+if [ ! -d "/opt/intel/openvino/deployment_tools/tools/model_downloader/" ]
+then 
+	sudo ./downloader.py --name mobilenet-ssd
+fi
+
 cd $HOME
 cd /opt/intel/openvino/deployment_tools/model_optimizer/ 
 
