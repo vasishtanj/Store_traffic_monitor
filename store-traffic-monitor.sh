@@ -22,12 +22,17 @@ then
 	sudo ./downloader.py --name mobilenet-ssd
 fi
 
+
 cd $HOME
 cd /opt/intel/openvino/deployment_tools/model_optimizer/ 
+if [ ! -d "/opt/intel/openvino/deployment_tools/model_optimizer/" ]
+then 
+	./mo_caffe.py --input_model /opt/intel/openvino/deployment_tools/tools/model_downloader/object_detection/common/mobilenet-ssd/caffe/mobilenet-ssd.caffemodel  -o $HOME/store-traffic-monitor-python/resources/FP32 --data_type FP32 --scale 256 --mean_values [127,127,127]
+fi
 
-./mo_caffe.py --input_model /opt/intel/openvino/deployment_tools/tools/model_downloader/object_detection/common/mobilenet-ssd/caffe/mobilenet-ssd.caffemodel  -o $HOME/store-traffic-monitor-python/resources/FP32 --data_type FP32 --scale 256 --mean_values [127,127,127]
 
 cd $HOME/store-traffic-monitor-python 
+
 
 
 
